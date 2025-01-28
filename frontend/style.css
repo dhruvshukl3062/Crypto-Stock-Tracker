@@ -1,46 +1,101 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f9;
+import { useState } from "react"
+import { ArrowUpDown, RefreshCw } from "lucide-react"
+
+interface FinancialData {
+  name: string
+  price: number
+  change: number
+  marketCap: string
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
+export default function FinancialAnalyzer() {
+  const [data, setData] = useState<FinancialData[]>([
+    { name: "Bitcoin", price: 30000, change: 2.5, marketCap: "$580B" },
+    { name: "Ethereum", price: 1800, change: -1.2, marketCap: "$220B" },
+    { name: "Apple Inc.", price: 150, change: 0.8, marketCap: "$2.5T" },
+    { name: "Tesla", price: 700, change: -2.1, marketCap: "$700B" },
+    { name: "Amazon", price: 3300, change: 1.5, marketCap: "$1.6T" },
+  ])
 
-h1, h2 {
-  text-align: center;
-}
+  const refreshData = () => {
+    // Simulating data refresh
+    setData(
+      data.map((item) => ({
+        ...item,
+        price: item.price * (1 + (Math.random() * 0.1 - 0.05)),
+        change: Math.random() * 10 - 5,
+      })),
+    )
+  }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
-
-button {
-  display: block;
-  margin: 10px auto;
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
+  return (
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+          <div className="px-4 py-5 sm:px-6 bg-gradient-to-r from-blue-500 to-indigo-600">
+            <h1 className="text-3xl font-bold text-white text-center">Financial Stock & Crypto Analyzer</h1>
+          </div>
+          <div className="px-4 py-5 sm:p-6">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Price
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Change
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Market Cap
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {data.map((item, index) => (
+                    <tr key={index} className="hover:bg-gray-50 transition-colors duration-200">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.price.toFixed(2)}</td>
+                      <td
+                        className={`px-6 py-4 whitespace-nowrap text-sm ${item.change >= 0 ? "text-green-600" : "text-red-600"}`}
+                      >
+                        {item.change.toFixed(2)}%
+                        <ArrowUpDown
+                          className={`inline-block ml-1 ${item.change >= 0 ? "rotate-0" : "rotate-180"}`}
+                          size={16}
+                        />
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.marketCap}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <button
+              onClick={refreshData}
+              className="mt-6 w-full flex justify-center items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+            >
+              <RefreshCw className="mr-2" size={20} />
+              Refresh Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
