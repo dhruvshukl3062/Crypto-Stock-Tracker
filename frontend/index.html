@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CryptoStock Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>CryptoStock Tracker</h1>
+    <div id="portfolio">
+      <h2>Your Portfolio</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Asset</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody id="portfolio-body">
+        </tbody>
+      </table>
+      <button onclick="addAsset()">Add Asset</button>
+    </div>
+    <div id="market-data">
+      <h2>Market Data</h2>
+      <input type="text" id="search" placeholder="Search for stocks/crypto">
+      <button onclick="fetchMarketData()">Search</button>
+      <div id="search-results"></div>
+    </div>
+    <canvas id="price-chart"></canvas>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
